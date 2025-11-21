@@ -1,7 +1,7 @@
 <?php 
 
-    require BASE_PATH . '/src/models/anounces/annonces.model.php';
-    require BASE_PATH . '/src/helpers/json.php';
+    require_once BASE_PATH . '/src/models/anounces/annonces.model.php';
+    require_once BASE_PATH . '/src/helpers/json.php';
     class annoncesControllers {
         private $anounceModel;
 
