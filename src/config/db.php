@@ -2,7 +2,6 @@
     class dataBase {
         private static $instance = null;
         private $conn;
-
         private $dbname= "annonce_api";
         private $username = 'root';
         private $pwd = '';
