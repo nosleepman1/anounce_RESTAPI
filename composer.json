@@ -1,0 +1,19 @@
+{
+    "name": "abash/anounce_restapi",
+    "description": "Api rest application annonces avec PHP POO MVC",
+    "autoload": {
+        "psr-4": {
+            "Abash\\AnounceRestapi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nosleepman1",
+            "email": "abdallahdiouf.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "phanda-framework/dotenv": "^0.1.2",
+        "vlucas/phpdotenv": "^2.6"
+    }
+}
