@@ -16,7 +16,7 @@ class message {
         exit;
     }
 
-    public static function json_datas ($datas){
+    public static function json_datas (array $datas){
         header('Content-Type: application/json; charset: utf8');
         echo json_encode([
             'datas' => $datas   

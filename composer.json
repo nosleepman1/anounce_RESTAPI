@@ -3,7 +3,7 @@
     "description": "Api rest application annonces avec PHP POO MVC",
     "autoload": {
         "psr-4": {
-            "Abash\\AnounceRestapi\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
@@ -13,7 +13,6 @@
         }
     ],
     "require": {
-        "phanda-framework/dotenv": "^0.1.2",
-        "vlucas/phpdotenv": "^2.6"
+        "vlucas/phpdotenv": "^5.6"
     }
 }

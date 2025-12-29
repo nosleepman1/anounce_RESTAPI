@@ -1,34 +1,33 @@
 <?php 
 
     require_once BASE_PATH . '/src/config/db.php';
-    class user {
-        private $db;
-        public function __construct() {
-            $this->db = dataBase::getInstance();
+    class User {
+
+        private ?int $id = null;
+        private ?string $name ;
+        private ?string $email ;
+        private ?string $password ;
+
+        public function __construct(string $name, string $email, string $password ) {
+            $this->name = $name;
+            $this->email = $email;
+            $this->password = $password;
         }
 
-        public function create($username, $firstname, $lastname, $email, $password) {
-            $stmt = $this->db->prepare("INSERT INTO users(username, firstname, lastname, email, password) VALUES (?,?,?,?,?)");
-            return $stmt->execute([$username, $firstname, $lastname, $email, $password]);
+        public function getId(): ?int {
+            return $this->id;
         }
 
-        public function findByEmail($email) {
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-            $stmt->execute([$email]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+        public function getName(): string {
+            return $this->name;
         }
 
-        public function findById($id){
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
-            $stmt->execute([$id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+        public function getEmail(): string {
+            return $this->email;
         }
 
-        public function findByUsername($username){
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
-            $stmt->execute([$username]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-
+        public function getPassword(): string {
+            return $this->password;
         }
 
     }
