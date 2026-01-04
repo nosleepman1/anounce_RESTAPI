@@ -14,18 +14,24 @@ require_once __DIR__ .'/../vendor/autoload.php';
 use Dotenv\Dotenv;
 Dotenv::createImmutable(__DIR__ .'/../')->load();
 
+require_once __DIR__ . '../src/controllers/annonces/annonces.controllers.php';
+require_once __DIR__ . '../src/controllers/users/users.controllers.php';
+
+$userControler = new UserController();
+$annonceControler = new annoncesControllers();
+
 
 
 switch ($url) {
     case '':
     case 'accueil':
-        echo 'PAGE ACCUEIL';
+        $annonceControler->All();
         break;
-    case 'contact':
-        echo 'PAGE CONTACT';
+    case 'login':
+        $userControler->login();
         break;
-    case 'about':
-        echo 'PAGE ABOUT';
+    case 'register':
+        $userControler->register();
         break;
     default:
         echo 'PAGE NON TROUVEE';

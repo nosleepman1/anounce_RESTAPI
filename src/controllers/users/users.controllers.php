@@ -6,7 +6,7 @@
     require_once BASE_PATH . '/src/helpers/json.php';
    
    
-    class Users_controller {
+    class UserController {
 
         private $db;
 
