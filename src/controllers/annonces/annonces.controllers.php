@@ -1,43 +1,69 @@
 <?php 
 
-    require BASE_PATH . '/src/models/anounces/annonces.model.php';
+    require_once __DIR__ .'/../../repositories/AnounceRepository.php';
+    require_once __DIR__ .'/../../repositories/UserRepository.php';
     require BASE_PATH . '/src/helpers/json.php';
     class annoncesControllers {
-        private $anounceModel;
+        private $anounceRepository;
 
-        public function __construct()
-        {
-            $this->anounceModel = new annoncesModel();
+        public function __construct() {
+            $this->anounceRepository = new AnounceRepository();
         }
 
-        public function getAll() {
-            return $this->anounceModel->get();
-        }
-
-        public function createAnounce() {
-            $data = json_decode(file_get_contents('php://input') ,true);
-
-            if (!$data['libelle'] || !$data['description'] || !$data['prix']) {
-                message::json_message("Veuillez remplir tous les champs", 422);
-            }
-
-            if (intval($data['prix']) <= 0) {
-                message::json_message("Prix invalide", 422);
-            }
-
-            $this->anounceModel->create($data['libelle'], $data['description'], $data['prix']);
-        }
-
-        public function updateAnounce($id) {
+        public function new() {
+            header('Content-Type: application/json');
             $data = json_decode(file_get_contents('php://input'), true);
-            $update = $this->anounceModel->update($id, $data['libelle'], $data['description'], $data['prix']);
-            if (!$update) {
-                return message::json_message("echec de la modification",422);
-            }
-            return message::json_message('modification reussie', 200);
-        }
+            
+            try {
+                if ($_SESSION['user_id']) {
 
-        public function deleteAnounce($id) {
-            $this->anounceModel->delete($id); 
-       }
+                    $annonce = new annoncesModel(
+                    $data['title'],
+                    $data['description'],
+                    $data['price'],
+                    null,
+                    $_SESSION['user_id']
+                    );
+
+                    $this->anounceRepository->new($_SESSION['user_id'], $annonce);
+
+                    message::json_datas(
+                        [
+                            'status' => 201,
+                            'message'   => 'Annonce cree avec succes',
+                            'datas' => $annonce
+                        ]
+                    );
+                    
+                } else {
+                    message::json_datas(
+                        [
+                            'status' => 401,
+                            'message'   => 'Utilisateur non authentifie'
+                        ]
+                    );
+                }
+
+            } catch (Exception $e) {
+                message::json_datas(
+                    [
+                        'status' => 400,
+                        'message'   => 'Erreur lors de la creation de l\'annonce',
+                        'error' => $e->getMessage()
+                    ]
+                );
+            }
+        }  
+
+        public function All() {
+            header('Content-Type: application/json');
+
+            message::json_datas(
+                [
+                    'status' => 200,
+                    'message'   => 'Liste des annonces',
+                    'datas' => $this->anounceRepository->getAll()
+                ]
+            );
+        }
     }

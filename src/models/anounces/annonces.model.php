@@ -4,35 +4,41 @@
     class annoncesModel {
         private $db;
 
-        public function __construct() {
-            $this->db = dataBase::getInstance();
+        private string $title;
+        private string $description;
+        private int $price;
+        private ?int $id = null;
+        private int $user_id;
+
+
+
+        public function __construct($title, $description, $price, $id = null, $user_id) {
+            $this->title = $title;
+            $this->description = $description;
+            $this->price = $price;
+            $this->id = $id;
+            $this->user_id = $user_id;
         }
 
-        public function get(){
-            $stmt = $this->db->prepare('SELECT * FROM annonces ORDER BY DESC');
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        public function getTitle(): string {
+            return $this->title;
         }
 
-        public function getById($id){
-            $stmt = $this->db->prepare('SELECT * FROM annonces WHERE id = ?');
-            $stmt->execute([$id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+        public function getDescription(): string {
+            return $this->description;
         }
 
+        public function getPrice(): int {
+            return $this->price;
+        }
+
+        public function getId(): int {
+            return $this->id;
+        }
         
-        public function delete($id) {
-            $stmt = $this->db->prepare('DELETE FROM annonces WHERE id = ?');
-            $stmt->execute([$id]);
+        public function getUserId(): int {
+            return $this->user_id;
         }
 
-        public function update($id, $libelle, $description, $prix) {
-            $stmt = $this->db->prepare("UPDATE annonces SET libelle = ?, description = ?, prix = ? WHERE id = ?");
-            return $stmt->execute([$libelle, $description, $prix ,$id]);
-        }
 
-        public function create($libelle, $description, $prix) {
-            $stmt = $this->db->prepare("INSERT INTO annonce(libelle, description,prix) VALUES  (?,?,?");
-            return $stmt->execute([$libelle, $description,$prix]);
-        }
     }
